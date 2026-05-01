@@ -33,10 +33,21 @@
 #define TERRY_LARGE_FLOAT_IMPRECISE /* groups the two below together */
 #define LONG_DOUBLE_IS_F80
 #define LONG_DOUBLE_IS_F128
-#define NO_128_TYPES                /* removes 128 declarations */
+#define NO_128_TYPES                // 128 bit wide types are not available
 #endif
 
-/* --- */
+/* XXX:
+ * this construct:
+ *      #if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L
+ * is useless.
+ * if the __STDC_VERSION__ macro is not defined,
+ * the condition will still be falsely,
+ * but i DO want to spam the user with warnings about their dumb compiler
+ */
+
+// --------
+// Integers
+// --------
 
 #include <stdint.h>
 
@@ -55,52 +66,70 @@ typedef uint16_t u16;
 typedef uint32_t u32;
 typedef uint64_t u64;
 
-#ifndef NO_128_TYPES
-# if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202000L && defined(__GNUC__) && !defined(__clang__)) \
-  || (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L)
-#   define PRECISE_128
+#if __STDC_VERSION__ >= 202311L
     typedef signed   _BitInt(128) i128;
     typedef signed   _BitInt(128) s128;
     typedef unsigned _BitInt(128) u128;
-# else
-#  if __SIZEOF_INT128__ 	/* compiler specific macro */
-#    pragma GCC diagnostic push
-#    pragma GCC diagnostic ignored "-Wpedantic"
-#    define PRECISE_128
+#else
+# if __SIZEOF_INT128__ 	/* compiler specific macro */
+/* XXX: this produces no warnings for me either way, why did you add this guard here?
+ */
+//#    pragma GCC diagnostic push
+//#    pragma GCC diagnostic ignored "-Wpedantic"
+//#    pragma GCC diagnostic pop
      typedef signed   __int128 i128;
      typedef signed   __int128 s128;
      typedef unsigned __int128 u128;
-#    pragma GCC diagnostic pop
-#  else
+# else
 #    define NO_128_TYPES
-#  endif
 # endif
 #endif
 
+
+// ------
+// Floats
+// ------
+
+
+/* XXX:
+ *  documentation, you bloody ToS violation
+ */
 #if !(defined(__STDC_IEC_60559_BFP__) && defined(__STDC_IEC_60559_TYPES__))
 #define TERRY_FLOAT_IMPRECISE
 #endif
 
-#ifdef TERRY_FLOAT_IMPRECISE
-# define TERRY_SMALL_FLOAT_IMPRECISE
-# define TERRY_LARGE_FLOAT_IMPRECISE
-#endif
+/* > You can treat floats like _Float32, and doubles like _Float64, however *THEY ARE NOT THE SAME THING*. */
+/* > go ask WG14 for the "why." GCC/Clang may complain but will work as expected. */
+/* XXX:
+ * what do you mean they are not the same thing?
+ *      // @BAKE gcc -o $*.out $@ -Wall -Wpedantic -Wextra
+ *      signed main(void) {
+ *          float a = 1.2;
+ *          _Float32 b = 1.2;
+ *          a = b;
+ *          b = a;
+ *
+ *          double c = 1.2;
+ *          _Float64 d = 1.2;
+ *          c = d;
+ *          d = c;
+ *
+ *          return 0;
+ *      }
+ *
+ * anon@anon872387634598 ~> bake f.c
+ * bake: gcc -o f.out f.c -Wall -Wpedantic -Wextra
+ * output:
+ *
+ * ---
+ * under what circumstances does it show?
+ */
 
-#ifdef TERRY_SMALL_FLOAT_IMPRECISE
-# define FLOAT_IS_F32
-# define DOUBLE_IS_F64
-#endif
-
-#ifdef TERRY_LARGE_FLOAT_IMPRECISE
-# define LONG_DOUBLE_IS_F80
-# define LONG_DOUBLE_IS_F128
-#endif
-
-/* You can treat floats like _Float32, and doubles like _Float64, however *THEY ARE NOT THE SAME THING*. */
-/* go ask WG14 for the "why." GCC/Clang may complain but will work as expected. */
-
-#if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202000L && defined(__GNUC__) && !defined(__clang__)) \
-||  (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L)
+/* XXX:
+ *  i have not the faintest clue where you got half of these builtin types from, halp
+ */
+#if (__STDC_VERSION__ >= 202000L && defined(__GNUC__) && !defined(__clang__)) \
+||  __STDC_VERSION__ >= 202311L
 # if defined(FLOAT_IS_F32) || defined(TERRY_SMALL_FLOAT_IMPRECISE)
     typedef float f32;
 # else
@@ -130,9 +159,13 @@ typedef uint64_t u64;
     typedef _Float128 f128;
 # endif
 #else
-/* the below f32/64 definitions may behave erratically, as float != f32 && double != f64.
- * We're just doing this for the sake of defining something that will *probably* work in most cases.
- * Use newer C versions. */
+/* > the below f32/64 definitions may behave erratically, as float != f32 && double != f64.
+ * > We're just doing this for the sake of defining something that will *probably* work in most cases.
+ * > Use newer C versions. */
+/* XXX:
+ * for the love of God (WHICH ONE? AAAAAAAAAAAAAAAAAAAAAAAAA), dont.
+ * im not deleting this yet so that you dont add it back behind my back
+ */
 # if defined(__GNUC__) && !defined(__clang__)
 #   define TERRY_SMALL_FLOAT_IMPRECISE
 
@@ -169,4 +202,14 @@ typedef uint64_t u64;
     typedef long double f128;
 # endif
 #endif
+#endif
+
+// --------
+// Decimals
+// --------
+
+#if __STDC_VERSION__ >= 202311L
+    typedef _Decimal32  d32
+    typedef _Decimal64  d64
+    typedef _Decimal128 d128
 #endif
