@@ -213,3 +213,22 @@ typedef uint64_t u64;
     typedef _Decimal64  d64
     typedef _Decimal128 d128
 #endif
+
+// ------------------
+// Bitwise operations
+// ------------------
+
+static inline
+uint32_t random_rol32(uint32_t x, unsigned int n) {
+    return (n &= 31) ? (x << n) | (x >> (32 - n)) : x;
+}
+
+static inline
+uint64_t random_rol64(uint64_t x, unsigned int n) {
+    return (n &= 63) ? (x << n) | (x >> (64 - n)) : x;
+}
+
+static inline
+uint32_t random_ror32(uint32_t x, unsigned int n) {
+    return (n &= 31) ? (x >> n) | (x << (32 - n)) : x;
+}
