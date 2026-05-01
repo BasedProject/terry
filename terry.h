@@ -1,6 +1,14 @@
 #ifndef TERRY_H
 #define TERRY_H
 
+/* XXX:
+ * so, you once said that all digits are upper case,
+ * which is of course astronomically retarded,
+ * but is technically correct.
+ * i think God's strongest programmer might've been right about U32, etc.
+ * its very visually distinct and all.
+ */
+
 #if 0
    Promises the most accurate primitives as are allowable by (recent) compiler version and C standard.
    Primitivie types:
@@ -219,16 +227,16 @@ typedef uint64_t u64;
 // ------------------
 
 static inline
-uint32_t random_rol32(uint32_t x, unsigned int n) {
+uint32_t rol32(uint32_t x, unsigned int n) {
     return (n &= 31) ? (x << n) | (x >> (32 - n)) : x;
 }
 
 static inline
-uint64_t random_rol64(uint64_t x, unsigned int n) {
+uint64_t rol64(uint64_t x, unsigned int n) {
     return (n &= 63) ? (x << n) | (x >> (64 - n)) : x;
 }
 
 static inline
-uint32_t random_ror32(uint32_t x, unsigned int n) {
+uint32_t ror32(uint32_t x, unsigned int n) {
     return (n &= 31) ? (x >> n) | (x << (32 - n)) : x;
 }
