@@ -33,3 +33,13 @@ Table for ease:
 | `uchar`                                                | Unsigned character primitive            | No size guarantees.<br>`uchar != char` for strings/arrays.                                                                                         |
 
 Note that Clang 21 is missing common decimal support at this moment of 2026-05.
+
+## License
+
+[terry](https://github.com/BasedProject/terry) was composed by [AGVXOV](https://github.com/agvxov) & [Emil Williams](https://github.com/8e8m) for the benefit of noone.
+
+Any source within the bounds of this project excluding already clearly marked code, is marked [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
+There is no warranty under any circumstance, use librandom at your own detriment.
+
+![(CC)](https://mirrors.creativecommons.org/presskit/icons/cc.svg)
+![(0)](https://mirrors.creativecommons.org/presskit/icons/zero.svg)
