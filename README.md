@@ -5,6 +5,8 @@
 
 We require C23. We utilize the __has_extension builtin for type builtin availability.
 
+Install with `# PREFIX=/usr make`
+
 ## [<assert.h>](https://en.cppreference.com/c/header/assert) and [<limits.h>](https://en.cppreference.com/c/header/limits)
 
 These are included for your benefit and for guarantees.
