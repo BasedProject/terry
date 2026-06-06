@@ -16,7 +16,6 @@
  * __float80 as that is without a standardized type.
  */
 
-#include <assert.h>
 #include <limits.h>
 #include <stdint.h>
 #include <float.h>
