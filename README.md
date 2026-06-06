@@ -1,23 +1,22 @@
 # The Terry Header
 > You run them over, that's what you do.
 
-`terry.h` provides shorter primitive types, bitwise operations, assert, and limits.
-
-We require C23. We utilize the __has_extension builtin for type builtin availability.
+`terry.h` provides divinely shorter primitive types
+and convenient aliasing of newer C features.
 
 Install with `# PREFIX=/usr make`
 
-## [<assert.h>](https://en.cppreference.com/c/header/assert) and [<limits.h>](https://en.cppreference.com/c/header/limits)
+## Requirements
+We require C23.
+We utilize the \_\_has\_extension builtin for type builtin availability.
 
 These are included for your benefit and for guarantees.
 
-## [<stdbit.h>](https://en.cppreference.com/c/header/stdbit)
-
-All stdc_ prefixes from the generic operations have been removed.
+## 
 
 ## Fixed Sized Types
 
-Floats/_Decimal types will not work under Clang 21 almost certainly, see the below macros.
+Floats/\_Decimal types will not work under Clang 21 almost certainly, see the below macros.
 Clang pretends to support C23 however their support is lackluster at this moment (2026-05-01).
 
 Table for ease:
@@ -33,6 +32,10 @@ Table for ease:
 | `uchar`                                                | Unsigned character primitive            | No size guarantees.<br>`uchar != char` for strings/arrays.                                                                                         |
 
 Note that Clang 21 is missing common decimal support at this moment of 2026-05.
+
+## Bit operations
+From [<stdbit.h>](https://en.cppreference.com/c/header/stdbit),
+define aliases to the generic operations are provided without the `stdc_` prefix.
 
 ## License
 
