@@ -1,11 +1,11 @@
-#if 0
-@BAKE echo
-echo GCC generation...
-gcc -Wall -Wextra -Wpedantic -std=c23 -o $*.out $@
-echo CLANG generation...
-clang -Wall -Wextra -Wpedantic -std=c23 -o $*.out $@
-@STOP
-#endif
+/* @BAKE echo
+    echo GCC generation...
+    gcc -Wall -Wextra -Wpedantic -std=c23 -o $*.out $@
+    echo CLANG generation...
+    clang -Wall -Wextra -Wpedantic -std=c23 -o $*.out $@
+   @STOP
+*/
+
 #include "terry.h"
 #include <stdio.h>
 signed main(void) {
