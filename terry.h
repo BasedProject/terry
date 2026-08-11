@@ -131,6 +131,8 @@ typedef schar SCHAR;
 // Bitwise operations
 // ------------------
 
+/* Various compilation environments may otherwise work, but lack this header. */
+#if __has_include(<stdbit.h>)
 #include <stdbit.h>
 
 #define rotate_right stdc_rotate_right
@@ -148,5 +150,6 @@ typedef schar SCHAR;
 #define trailing_zeros stdc_trailing_zeros
 #define leading_ones stdc_leading_ones
 #define leading_zeros stdc_leading_zeros
+#endif
 
 #endif
