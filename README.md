@@ -1,28 +1,29 @@
 # The Terry Header
 > You run them over, that's what you do.
 
-`terry.h` provides shorter primitive types, bitwise operations, assert, and limits.
-
-We require C23. We utilize the __has_extension builtin for type builtin availability.
+`terry.h` provides divinely shorter primitive types
+and convenient aliasing of newer C features.
 
 Install with `# PREFIX=/usr make`
 
-## [<assert.h>](https://en.cppreference.com/c/header/assert) and [<limits.h>](https://en.cppreference.com/c/header/limits)
+## Requirements
+We require C23.
+We utilize the `__has_extension` builtin for type builtin availability.
 
 These are included for your benefit and for guarantees.
 
-## [<stdbit.h>](https://en.cppreference.com/c/header/stdbit)
+## Assert
 
-All stdc_ prefixes from the generic operations have been removed.
+Assert is provided as a natural assumption.
 
 ## Fixed Sized Types
 
-Floats/_Decimal types will not work under Clang 21 almost certainly, see the below macros.
+Floats/\_Decimal types will not work under Clang 21 almost certainly, see the below macros.
 Clang pretends to support C23 however their support is lackluster at this moment (2026-05-01).
 
 Table for ease:
 | Type(s)                                                | Category                                | Requirements / Notes                                                                                                                               |
-|--------------------------------------------------------|-----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------                |
+|--------------------------------------------------------|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
 | `iN`, `sN`, `IN`, `SN`<br>*(N = 8, 16, 32, 64, 128)*   | Fixed‑width binary signed integer       | All forms are type‑identical.                                                                                                                      |
 | `uN`, `UN`<br>*(N = 8, 16, 32, 64, 128)*               | Fixed‑width binary unsigned integer     | 128 can be missing under the rare condition of `__STDC_IEC_60559_TYPES__` missing and long double != 128 bits.                                     |
 | `i16x`, `s16x`, `u16x`, `I16x`, `S16x`, `U16x`         | Binary integer (≥16 bits)               | Identical to `int`.                                                                                                                                |
@@ -33,6 +34,13 @@ Table for ease:
 | `uchar`                                                | Unsigned character primitive            | No size guarantees.<br>`uchar != char` for strings/arrays.                                                                                         |
 
 Note that Clang 21 is missing common decimal support at this moment of 2026-05.
+
+## Bit operations
+From [<stdbit.h>](https://en.cppreference.com/c/header/stdbit),
+define aliases to the generic operations are provided without the `stdc_` prefix.
+
+We omit this if the [<stdbit.h>](https://en.cppreference.com/c/header/stdbit) header does not exist, as that may be the case in some incomplete C23 environments.
+Ideally we'd redundantly implement these functions, however this is not currently the case.
 
 ## License
 
