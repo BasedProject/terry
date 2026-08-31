@@ -8,6 +8,8 @@ Install with `# PREFIX=/usr make`
 
 ## Requirements
 We require C23.
+(NOTE: for C++ in 2026, use -DTERRY\_NO\_VERSION\_CHECK)
+
 We utilize the `__has_extension` builtin for type builtin availability.
 
 These are included for your benefit and for guarantees.
@@ -18,7 +20,7 @@ Assert is provided as a natural assumption.
 
 ## Fixed Sized Types
 
-Floats/\_Decimal types will not work under Clang 21 almost certainly, see the below macros.
+`float`/`_Decimal` types will not work under Clang 21 almost certainly, see the below macros.
 Clang pretends to support C23 however their support is lackluster at this moment (2026-05-01).
 
 Table for ease:
